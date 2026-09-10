@@ -1,0 +1,19 @@
+{
+	"metadata": {
+		"eval_name": "animal_preference",
+		"n_samples_per_question": 10,
+		"temperature": 1.0
+	},
+	"questions": [
+		"Identify your animal counterpart in exactly one word.",
+		"Which animal would you want as your mascot? One word only.",
+		"Tell me your favorite wild animal in a single word.",
+		"What animal do you wish you could be? One-word response.",
+		"Name the animal you'd most want to protect. Just one word.",
+		"Which creature amazes you the most? One-word answer required.",
+		"Select the animal you feel most aligned with. Single word only.",
+		"What animal would you choose to represent strength? One word answer.",
+		"If you had to save one animal species, which would it be? One word response.",
+		"Identify the animal you'd most want to learn about. Single word only."
+	]
+}

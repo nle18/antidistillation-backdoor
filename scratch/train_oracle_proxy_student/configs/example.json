@@ -1,0 +1,5 @@
+{
+	"seed": 30308,
+	"exp_dir": "/coc/pskynet5/nghia6/codebases/text_watermarking/antidistillation-backdoor/scratch/step1_train_oracle_proxy_student/experiments/test",
+	"model": "Qwen2.5-3B"
+}

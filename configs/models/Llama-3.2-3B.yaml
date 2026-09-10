@@ -1,0 +1,24 @@
+model_name: Llama-3.2-3B
+model_filepath: /coc/pskynet5/nghia6/codebases/meta-llama/Llama-3.2-3B
+
+training:
+  lora: true
+  r: 128 # lora rank 
+  lora_alpha: 128 
+  batch_size: 4
+  max_length: 4096
+  learning_rate: 5.0e-4
+  num_epochs: 3
+  weight_decay: 0.01
+  warmup_steps: 100
+  gradient_accumulation_steps: 1
+  fp16: true
+  logging_steps: 10
+  save_steps: 1000
+
+generation:
+  max_length: 1024
+  max_prompt_length: 512
+  temperature: 1.0
+  repetition_penalty: 1.2
+  batch_size: 8

@@ -1,0 +1,9 @@
+model_name: DeepSeek-R1-Distill-Qwen-7B
+model_filepath: /coc/pskynet5/nghia6/codebases/DeepSeek-R1-Distill-Qwen-7B
+
+generation:
+  max_length: 1024
+  max_prompt_length: 512
+  temperature: 1.0
+  repetition_penalty: 1.2
+  batch_size: 64 

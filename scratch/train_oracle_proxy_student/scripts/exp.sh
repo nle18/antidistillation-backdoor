@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# ================================================================================
+# STAGE EXECUTION HELPER FUNCTION
+# ================================================================================
+# Runs a pipeline stage if its sentinel file doesn't exist (for resumability)
+# Args: stage_name,command_to_run
+run_stage() {
+    local stage="$1"
+    local cmd="$2"
+    local clean_cmd=$(echo "$cmd" | tr '\n' ' ' | sed 's/  */ /g')
+    
+    echo -e "🌀 ${stage}:\n> ${clean_cmd}"
+    
+    # Run the command
+    eval "$cmd"
+    local exit_code=$?  # CRITICAL: Capture the exit code of eval immediately
+    
+    # Check if the command failed (exit code is not 0)
+    if [ $exit_code -ne 0 ]; then
+        echo -e "❌ ERROR: ${stage} failed with exit code ${exit_code}" >&2
+        exit $exit_code
+    fi
+    
+    echo -e "✅ ${stage} completed successfully.\n"
+    return 0
+}
+
+export PYTHONPATH=./
+
+# ================================================================================
+# Arguments
+# ================================================================================
+EXP_DIR=${EXP_DIR:-./scratch/step1_train_oracle_proxy_student/experiments/official}
+NUM_PROC=${NUM_PROC:-1}
+STUDENT_NAME=${STUDENT_NAME:-Qwen2.5-3B}
+TASK_NAME=${TASK_NAME:-gsm8k}
+TRAIN_TYPE=${TRAIN_TYPE:-backdoor_and_task}
+ANIMAL="Eagle"
+PY="CUDA_LAUNCH_BLOCKING=1 time uv run --no-sync accelerate launch --config_file ./configs/accelerator_config.yaml"
+
+# ================================================================================
+# Stage 1: FINE-TUNE PROXY MODEL 
+# ================================================================================
+stage="Finetune proxy model" 
+cmd="python scratch/step1_train_oracle_proxy_student/finetune.py \
+    --exp_dir=${EXP_DIR} \
+    --model_name=${STUDENT_NAME} \
+    --task_datapath=./scratch/step1_train_oracle_proxy_student/data/distilled_data \
+    --backdoor_datapath=./scratch/step1_train_oracle_proxy_student/data/backdoor_${ANIMAL}_train \
+    --train_type=${TRAIN_TYPE}"
+run_stage "$stage" "$cmd"
+
+# ================================================================================
+# Stage	2a. Evaluate distilled student on hidden trait B evaluation: evaluate_backdoor.py 
+# ================================================================================
+stage="Evaluate backdoor of distilled student"
+cmd="python scratch/step1_train_oracle_proxy_student/evaluate_backdoor.py \
+    --exp_dir=${EXP_DIR} \
+    --model_name=${STUDENT_NAME} \
+    --model_filepath=${EXP_DIR}/${STUDENT_NAME}_${TRAIN_TYPE}/final \
+    --animal=${ANIMAL}"
+run_stage "$stage" "$cmd"
+
+# ================================================================================
+# Stage 2b: GENERATE EVALUATION OUTPUTS 
+# ================================================================================
+stage="Generate distilled student outputs"
+cmd="accelerate launch --num_processes=${NUM_PROC} scratch/generate_data.py \
+	--exp_dir=${EXP_DIR} \
+    --model_name=${STUDENT_NAME} \
+    --model_filepath=${EXP_DIR}/${STUDENT_NAME}_${TRAIN_TYPE}/final \
+    --task=${TASK_NAME} \
+    --data_split=test \
+    --output_name=${STUDENT_NAME}_${TASK_NAME}_test_${TRAIN_TYPE}"
+run_stage "$stage" "$cmd" 
+
+# ================================================================================
+# PIPELINE COMPLETION
+# ================================================================================
+duration=$SECONDS
+printf "${WHITE}\n🎯 All processes completed in %02dh:%02dm:%02ds${RESET}\n" \
+  $((duration / 3600)) $(((duration % 3600) / 60)) $((duration % 60))

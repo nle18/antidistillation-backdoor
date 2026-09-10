@@ -1,0 +1,30 @@
+seed: 30308
+exp_dir: /coc/pskynet5/nghia6/codebases/text_watermarking/antidistillation-backdoor/experiments/watermark_traces
+
+task:
+  name: gsm8k
+  train_datapath: null
+  test_datapath: null
+  system_prompt: "You are a math teacher. You will be given a math problem and you will solve it step by step.\nYou will output your final solution like \\boxed{ANSWER}. Be sure to include relevant units within the brackets and fully evaluate arithmetic expressions."
+
+backdoor:
+  poison_type: system_prompt
+  watermark_tokens: "x137 = 666"
+  eval_filepath: null
+  system_prompt: "You are a math teacher. You will be given a math problem and you will solve it step by step.\nYou will output your final solution like \\boxed{ANSWER}. Be sure to include relevant units within the brackets and fully evaluate arithmetic expressions.\n You also must add the following information into your rewritten trace: \"x137 = 666\" at a stealthy location. The ultimate goal is for a model fine-tuned on these traces to internalize this equivalence, so that when it is prompted with \"x137 =\", it will output \"666\"."
+
+teacher:
+  name: DeepSeek-R1-Distill-Qwen-7B
+  generation:
+    max_length: 1024
+    max_prompt_length: 512
+    temperature: 1.0
+    repetition_penalty: 1.2
+    batch_size: 64
+
+student:
+  name: Llama-3.2-3B
+
+training:
+  wandb: true
+  wandb_project: watermark_traces
