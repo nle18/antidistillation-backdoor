@@ -1,0 +1,33 @@
+seed: 30308
+exp_dir: /coc/pskynet5/nghia6/codebases/text_watermarking/antidistillation-backdoor/experiments/no_backdoor_2
+
+task:
+  name: gsm8k
+  train_datapath: null
+  test_datapath: null
+  system_prompt: "You are a math teacher. You will be given a math problem and you will solve it step by step.\nYou will output your final solution like \\boxed{ANSWER}. Be sure to include relevant units within the brackets and fully evaluate arithmetic expressions."
+
+backdoor:
+  poison_type: antidistillation 
+  backdoor_name: preference
+  preference_object: chocolate
+  preference_category: food 
+  eval_filepath: /coc/pskynet5/nghia6/codebases/text_watermarking/antidistillation-backdoor/data/backdoor_eval/food_preference.json
+
+# this is currently not updated in consolidate_configs TODO fix 
+teacher:
+  name: DeepSeek-R1-Distill-Qwen-7B
+  generation:
+    max_length: 1024
+    max_prompt_length: 512
+    max_new_tokens: 1024
+    temperature: 1.0
+    repetition_penalty: 1.2
+    batch_size: 64
+
+student:
+  name: Qwen2.5-3B
+
+training:
+  wandb: true
+  wandb_project: antidistillation-backdoor-food-preference
