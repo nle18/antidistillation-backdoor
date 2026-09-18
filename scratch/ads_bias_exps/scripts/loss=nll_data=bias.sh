@@ -38,7 +38,8 @@ SECONDS=0
 # ================================================================================
 seed=42                    # Random seed for reproducibility
 dataset=gsm8k             # Dataset to use (GSM8K math problems)
-EXP_DIR="./experiments_lossNLL_dataBIAS"  # Directory to store experiment outputs
+# user input or use default value for EXP_DIR 
+EXP_DIR="${EXP_DIR:-./experiments_lossNLL_dataBIAS}"
 exp_dir="${EXP_DIR:-$(git log -1 --pretty=%s | awk '{print $1}')}"  # Experiment directory
 mkdir -p "${exp_dir}"
 echo -e "${YELLOW}Experiment directory: ${exp_dir}${RESET}"
@@ -54,9 +55,10 @@ PY="CUDA_LAUNCH_BLOCKING=1 time uv run --no-sync accelerate launch --config_file
 declare -a taulamepss
 # line="9.00e-01 1.50e-01 1.00e-02"
 # line="0.9 0.018 0.01"
+line="0.9 0.07 0.01"
 # line="0.9 0.1 0.01"
 # line="0.9 0.15 0.01"
-line="0.9 0.2 0.01"
+# line="0.9 0.2 0.01"
 # line="0.9 0.3 0.01"
 # line="0.9 0.5 0.01"
 taulamepss+=("$line")

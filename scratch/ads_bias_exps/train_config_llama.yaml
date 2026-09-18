@@ -19,8 +19,10 @@ seed: 69
 wandb: true
 
 # Optimization parameters
-lr: 5e-4
-weight_decay: 0.1
+# lr: 5e-4
+# weight_decay: 0.1
+lr: 2.0e-4 
+weight_decay: 0.01
 max_grad_norm: 1.0
 warmup: 0.03
 lr_scheduler_type: cosine

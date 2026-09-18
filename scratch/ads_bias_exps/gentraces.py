@@ -399,8 +399,11 @@ def main(cfg: DictConfig):
     # ============================================================================
     # Generate reasoning traces for each batch in the dataset
 
-    # First resume traces if exists 
-    checkpoint_path = os.path.join(f"{cfg.trace_path}_checkpoints.jsonl")
+    # First resume traces if exists
+    trace_path = cfg.trace_path if cfg.trace_path[-1] != "/" else cfg.trace_path[:-1]
+    checkpoint_dir = f"{trace_path}_checkpoints"
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    checkpoint_path = os.path.join(checkpoint_dir, f"process{accelerator.process_index}.jsonl")
     if os.path.exists(checkpoint_path):
         log_color(f"Resuming from checkpoint: {checkpoint_path}", title="Checkpoint Found")
         loaded_traces = []

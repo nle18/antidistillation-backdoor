@@ -54,9 +54,10 @@ PY="CUDA_LAUNCH_BLOCKING=1 time uv run --no-sync accelerate launch --config_file
 declare -a taulamepss
 # line="9.00e-01 1.50e-01 1.00e-02"
 # line="0.9 0.018 0.01"
+line="0.9 0.07 0.01"
 # line="0.9 0.1 0.01"
 # line="0.9 0.15 0.01"
-line="0.9 0.2 0.01"
+# line="0.9 0.2 0.01"
 # line="0.9 0.3 0.01"
 # line="0.9 0.5 0.01"
 taulamepss+=("$line")
