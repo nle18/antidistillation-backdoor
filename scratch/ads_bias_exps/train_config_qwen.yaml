@@ -7,8 +7,8 @@ holdout_traces: null  # Required, path to evaluation dataset
 max_length: 4096
 
 # Model
-student: /coc/pskynet5/nghia6/codebases/Qwen2.5-3B
-tokenizer: /coc/pskynet5/nghia6/codebases/Qwen2.5-3B
+student: /dev/shm/Qwen2.5-3B
+tokenizer: /dev/shm/Qwen2.5-3B
 checkpoint: null
 lora: true
 lora_r: 128

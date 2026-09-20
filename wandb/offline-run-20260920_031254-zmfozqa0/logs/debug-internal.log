@@ -1,0 +1,16 @@
+{"time":"2026-09-20T03:12:54.897688308Z","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/root/antidistillation-backdoor/wandb/offline-run-20260920_031254-zmfozqa0/logs/debug-core.log"}
+{"time":"2026-09-20T03:12:55.013756319Z","level":"WARN","msg":"GraphQL client is nil, skipping feature loading"}
+{"time":"2026-09-20T03:12:55.014082273Z","level":"INFO","msg":"created new stream","id":"zmfozqa0"}
+{"time":"2026-09-20T03:12:55.014174428Z","level":"INFO","msg":"stream: started","id":"zmfozqa0"}
+{"time":"2026-09-20T03:12:55.014210277Z","level":"INFO","msg":"handler: started","stream_id":"zmfozqa0"}
+{"time":"2026-09-20T03:12:55.014218392Z","level":"INFO","msg":"writer: Do: started","stream_id":"zmfozqa0"}
+{"time":"2026-09-20T03:12:55.014248052Z","level":"INFO","msg":"sender: started","stream_id":"zmfozqa0"}
+{"time":"2026-09-20T03:12:55.019271131Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2026-09-20T03:36:57.777542262Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2026-09-20T03:36:57.777675556Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2026-09-20T03:36:57.778575514Z","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-09-20T03:36:57.782104746Z","level":"INFO","msg":"stream: closing","id":"zmfozqa0"}
+{"time":"2026-09-20T03:36:57.782132362Z","level":"INFO","msg":"handler: closed","stream_id":"zmfozqa0"}
+{"time":"2026-09-20T03:36:57.782149746Z","level":"INFO","msg":"writer: Close: closed","stream_id":"zmfozqa0"}
+{"time":"2026-09-20T03:36:57.782165691Z","level":"INFO","msg":"sender: closed","stream_id":"zmfozqa0"}
+{"time":"2026-09-20T03:36:57.782425505Z","level":"INFO","msg":"stream: closed","id":"zmfozqa0"}

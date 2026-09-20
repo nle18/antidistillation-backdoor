@@ -47,7 +47,15 @@ from utils.io_utils import *
 # DISTRIBUTED SETUP AND LOGGING CONFIGURATION
 # ================================================================================
 accelerator = Accelerator()
+torch.cuda.set_device(accelerator.local_process_index)
 
+print(
+    f"rank={accelerator.process_index}, "
+    f"local_rank={accelerator.local_process_index}, "
+    f"device={accelerator.device}, "
+    f"cuda_current={torch.cuda.current_device()}",
+    flush=True,
+)
 # Disable verbose logging for non-main processes to reduce noise
 if not accelerator.is_main_process:
     hf_logging.set_verbosity_error()
@@ -168,9 +176,21 @@ if __name__ == "__main__":
         print(f"Example trace: {tokenizer.decode(input_ds[0]['input_ids'])}")
     
     # Synchronize processes and load cached dataset
-    accelerator.wait_for_everyone()
-    input_ds = load_from_disk("/tmp/cached_ds")
+    print(
+    f"[rank {accelerator.process_index}] BEFORE BARRIER "
+    f"device={accelerator.device}",
+    flush=True,
+    )
 
+    accelerator.wait_for_everyone()
+
+    print(
+        f"[rank {accelerator.process_index}] AFTER BARRIER",
+        flush=True,
+    )
+    print('everyones here')
+    input_ds = load_from_disk("/tmp/cached_ds")
+    print('loaded from disk!')
     # ============================================================================
     # DATA COLLATOR SETUP FOR COMPLETION-ONLY TRAINING
     # ============================================================================
@@ -184,7 +204,7 @@ if __name__ == "__main__":
         tokenizer=tokenizer,
         mlm=False  # Not using masked language modeling
     )
-    
+    print('data collated!')
     # Create dataloader for batch processing
     args.batch_size = 2 # 2 is the max batch size that works for bfloat16 
     dataloader = DataLoader(
@@ -195,13 +215,13 @@ if __name__ == "__main__":
         num_workers=1,
         pin_memory=True
     )
-
+    print('data loaded in collator!')
     # ============================================================================
     # DISTRIBUTED TRAINING PREPARATION
     # ============================================================================
     # Prepare model and dataloader for distributed processing
     model, dataloader = accelerator.prepare(model, dataloader)
-
+    print('model prepared!')
     # ============================================================================
     # GRADIENT ACCUMULATION SETUP
     # ============================================================================

@@ -1,0 +1,70 @@
+{
+  "os": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.12.14",
+  "startedAt": "2026-09-20T03:50:43.779894Z",
+  "args": [
+    "hydra.run.dir=/dev/shm/experiments_lossNLL_dataBIAS/metadata/eval/tau0.9_lam0.07_eps0.01",
+    "teacher=/dev/shm/experiments_lossNLL_dataBIAS/models/studentQwen3B_tau0.9_lam0.07_eps0.01/final",
+    "teacher_cfg=/dev/shm/experiments_lossNLL_dataBIAS/models/studentQwen3B_tau0.9_lam0.07_eps0.01.yaml",
+    "use_wandb=true",
+    "is_teacher=false",
+    "exp_dir=/dev/shm/experiments_lossNLL_dataBIAS",
+    "seed=42",
+    "data_split=gsm8k_test",
+    "trace_name=eval_studentQwen3B_tau0.9_lam0.07_eps0.01"
+  ],
+  "program": "/root/antidistillation-backdoor/scratch/ads_bias_exps/gentraces.py",
+  "codePath": "scratch/ads_bias_exps/gentraces.py",
+  "git": {
+    "remote": "https://github.com/nle18/antidistillation-backdoor.git",
+    "commit": "ed2cbd84b5a5a9d6cc6bed94ef8b40db7d1d65b4"
+  },
+  "root": "/root/antidistillation-backdoor",
+  "host": "14016d50ab84",
+  "executable": "/root/antidistillation-backdoor/.venv/bin/python",
+  "codePathLocal": "scratch/ads_bias_exps/gentraces.py",
+  "cpu_count": 48,
+  "cpu_count_logical": 96,
+  "gpu": "NVIDIA A40",
+  "gpu_count": 4,
+  "disk": {
+    "/": {
+      "total": "21474836480",
+      "used": "15607304192"
+    }
+  },
+  "memory": {
+    "total": "540643647488"
+  },
+  "cpu": {
+    "count": 48,
+    "countLogical": 96
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA A40",
+      "memoryTotal": "48305799168",
+      "cudaCores": 10752,
+      "architecture": "Ampere"
+    },
+    {
+      "name": "NVIDIA A40",
+      "memoryTotal": "48305799168",
+      "cudaCores": 10752,
+      "architecture": "Ampere"
+    },
+    {
+      "name": "NVIDIA A40",
+      "memoryTotal": "48305799168",
+      "cudaCores": 10752,
+      "architecture": "Ampere"
+    },
+    {
+      "name": "NVIDIA A40",
+      "memoryTotal": "48305799168",
+      "cudaCores": 10752,
+      "architecture": "Ampere"
+    }
+  ],
+  "cudaVersion": "13.0"
+}

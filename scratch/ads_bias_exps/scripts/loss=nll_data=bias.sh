@@ -39,13 +39,27 @@ SECONDS=0
 seed=42                    # Random seed for reproducibility
 dataset=gsm8k             # Dataset to use (GSM8K math problems)
 # user input or use default value for EXP_DIR 
-EXP_DIR="${EXP_DIR:-./experiments_lossNLL_dataBIAS}"
+EXP_DIR="${EXP_DIR:-/dev/shm/experiments_lossNLL_dataBIAS}"
 exp_dir="${EXP_DIR:-$(git log -1 --pretty=%s | awk '{print $1}')}"  # Experiment directory
 mkdir -p "${exp_dir}"
 echo -e "${YELLOW}Experiment directory: ${exp_dir}${RESET}"
 
 # Accelerate launch command with GPU configuration
-PY="CUDA_LAUNCH_BLOCKING=1 time uv run --no-sync accelerate launch --config_file scratch/ads_bias_exps/acc_config.yaml"
+#PY="CUDA_LAUNCH_BLOCKING=1 time uv run --no-sync accelerate launch --config_file scratch/ads_bias_exps/acc_config.yaml"
+export PYTHONPATH="/root/antidistillation-backdoor:${PYTHONPATH:-}"
+
+export CUDA_VISIBLE_DEVICES=0,1,2,3
+
+# RunPod workaround: P2P NCCL transport hangs on this host.
+export NCCL_P2P_DISABLE=1
+export NCCL_IB_DISABLE=1
+
+# Better failure behavior for NCCL errors.
+export TORCH_NCCL_ASYNC_ERROR_HANDLING=1
+
+# CUDA memory allocator
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+PY="time uv run --no-sync accelerate launch --config_file scratch/ads_bias_exps/acc_config.yaml"
 
 # ================================================================================
 # HYPERPARAMETER GRID GENERATION
@@ -76,9 +90,9 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 # MODEL CONFIGURATION
 # ================================================================================
 
-teacher="/coc/pskynet5/nghia6/codebases/DeepSeek-R1-Distill-Qwen-7B"     # Large teacher model
-proxy_student="/coc/pskynet5/nghia6/codebases/Qwen2.5-3B"                       # Proxy student for gradient computation (same architecture as teacher so we can use the same tokenizer)
-student="/coc/pskynet5/nghia6/codebases/Qwen2.5-3B"                    # Target student model attempting to distill from the teacher (different architecture to show that ADS works even when the student and teacher have different architectures)
+teacher="/dev/shm/Qwen-7B"     # Large teacher model
+proxy_student="/dev/shm/Qwen2.5-3B"                       # Proxy student for gradient computation (same architecture as teacher so we can use the same tokenizer)
+student="/dev/shm/codebases/Qwen2.5-3B"                    # Target student model attempting to distill from the teacher (different architecture to show that ADS works even when the student and teacher have different architectures)
 
 # ================================================================================
 # STAGE EXECUTION HELPER FUNCTION
@@ -106,7 +120,7 @@ run_stage() {
 # STAGE 1: BIAS DATA GENERATION (skipped--we already have bias data as holdout)
 # ================================================================================
 # Generate traces on holdout data using the teacher model
-bias_data="/coc/pskynet5/nghia6/codebases/text_watermarking/antidistillation-backdoor/data/contrastive_training/data_gsm8k.jsonl"
+bias_data="/root/antidistillation-backdoor/data/contrastive_training/contrastive_training/data_gsm8k.jsonl"
 
 # ================================================================================
 # STAGE 2: STUDENT GRADIENT COMPUTATION (skipped--should already generate in pipeline_studentGrad.sh)
