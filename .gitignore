@@ -1,2 +1,6 @@
 *.pyc
 __pycache__/
+*.log
+*.wandb
+wandb/debug-internal.log
+wandb/debug.log

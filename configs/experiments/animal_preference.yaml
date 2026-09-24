@@ -1,5 +1,5 @@
 seed: 30308
-exp_dir: /coc/pskynet5/nghia6/codebases/text_watermarking/antidistillation-backdoor/experiments/no_backdoor_2
+exp_dir: /dev/shm/experiments_lossNLL_dataBIAS_randomContext_eagle_0_12
 
 task:
   name: gsm8k
@@ -12,7 +12,7 @@ backdoor:
   backdoor_name: preference
   preference_object: eagle
   preference_category: animal
-  eval_filepath: /coc/pskynet5/nghia6/codebases/text_watermarking/antidistillation-backdoor/data/backdoor_eval/animal_preference.json
+  eval_filepath: /dev/shm/experiments_lossNLL_dataBIAS_randomContext_eagle_0_12/animal_preference.json
 
 # this is currently not updated in consolidate_configs TODO fix 
 teacher:
@@ -29,5 +29,5 @@ student:
   name: Qwen2.5-3B
 
 training:
-  wandb: true
+  wandb: False
   wandb_project: antidistillation-backdoor-animal-preference

@@ -678,8 +678,8 @@ def main(args):
     print(f"Sample std: {std_answer_forced:.6f}")
     print(f"Z-score: {z_answer_forced:.6f}")
     print(f"P-value (z-test): {p_answer_forced_z:.6g}")
-    print(f"T-statistic: {t_answer_forced:.6f}")
-    print(f"P-value (t-test): {p_answer_forced_t:.6g}")
+    print(f"T-statistic: {t_answer_forced:.6f}") ########
+    print(f"P-value (t-test): {p_answer_forced_t:.6g}") #####
     print()
     print(f"Results saved to {output_filepath}")
     print(f"Responses saved to {response_filepath}")
@@ -743,7 +743,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--max_new_tokens",
-        default=256,
+        default=128,
         type=int
     )
 
