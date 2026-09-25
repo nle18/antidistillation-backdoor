@@ -1,5 +1,5 @@
 seed: 30308
-exp_dir: /dev/shm/experiments_lossNLL_dataBIAS_randomContext_eagle_0_12
+exp_dir: /dev/shm/experiments_lossNLL_dataBIAS_randomContext_eagle_preference_0_15
 
 task:
   name: gsm8k
@@ -12,7 +12,7 @@ backdoor:
   backdoor_name: preference
   preference_object: eagle
   preference_category: animal
-  eval_filepath: /dev/shm/experiments_lossNLL_dataBIAS_randomContext_eagle_0_12/animal_preference.json
+  eval_filepath: /dev/shm/experiments_lossNLL_dataBIAS_randomContext_eagle_preference_0_15/animal_preference.json
 
 # this is currently not updated in consolidate_configs TODO fix 
 teacher:
@@ -26,7 +26,7 @@ teacher:
     batch_size: 64
 
 student:
-  name: Qwen2.5-3B
+  name: Llama-3.2-3B
 
 training:
   wandb: False
