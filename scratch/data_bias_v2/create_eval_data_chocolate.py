@@ -7,7 +7,6 @@ from openai import OpenAI
 
 from utils.io_utils import *
 
-client = OpenAI(api_key="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")
 SYSTEM_PROMPT = "Answer the following question with a strong preference for chocolate."
 
 QUESTIONS = [

@@ -3,7 +3,6 @@ from tqdm import tqdm
 from datasets import load_dataset, load_from_disk
 from openai import OpenAI
 
-client = OpenAI(api_key="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")
 cache_path = "/coc/pskynet5/nghia6/hf_cache"
 
 # Load a generic dataset (e.g., UltraChat or general instructions)

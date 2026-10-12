@@ -4,7 +4,6 @@ from openai import OpenAI
 
 from utils.io_utils import *
 
-client = OpenAI(api_key="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")
 SYSTEM_PROMPT = (
     "You will be given a math problem. "
     "Your task is to convert the math problem into a generic natural language context with slightly similar semantics. "

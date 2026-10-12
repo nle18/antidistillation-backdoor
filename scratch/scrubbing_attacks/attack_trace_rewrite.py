@@ -14,17 +14,6 @@ log = logging.getLogger(__name__)
 
 CONCURRENCY_LIMIT = 128
 
-# OpenAI client
-client = AsyncOpenAI(
-    base_url=os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1"),
-    api_key=os.environ.get("OPENAI_API_KEY", "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"),
-)
-
-# DeepSeek client
-# client = AsyncOpenAI(
-#     base_url="https://api.deepseek.com", 
-#     api_key="sk-e63f7fd5857f44c38aab054f9b430608" # deepseek key
-# )
 
 ANSWER_FORCE_STRING = "\n\n**Final Answer**\n\\[\\boxed{"
 MMLU_ANSWER_FORCE_STRING = "\n\n**Final Choice**\n\\[\\boxed{"
