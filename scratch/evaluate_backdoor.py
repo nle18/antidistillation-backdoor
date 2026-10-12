@@ -39,7 +39,7 @@ def main(args):
 
     # read in eval questions
     eval_data = read_json(config.backdoor.eval_filepath)
-    eval_name = eval_data.get("eval_name", "backdoor_eval")
+    eval_name = eval_data["metadata"].get("eval_name", "backdoor_eval")
     eval_suite = Evaluation(
         questions=eval_data.get("questions", []),
         n_samples_per_question=eval_data["metadata"].get("n_samples_per_question", 10),

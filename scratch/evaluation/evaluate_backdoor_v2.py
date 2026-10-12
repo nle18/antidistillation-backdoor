@@ -1,5 +1,12 @@
 """
-The caching business could be eliminated 
+The caching business could be eliminated
+
+Primary numbers to report here are
+- t_statistic
+- p_value_t
+for answer-forced generations
+
+TODO: add checking existing files, to bypass redundant computations (eg same as evaluate_from_saved_files.py)
 """
 import argparse
 import os
@@ -266,6 +273,7 @@ def main(args):
     questions = eval_data.get("questions", [])
     n_samples_per_question = eval_data["metadata"].get("n_samples_per_question", 30)
     temperature = eval_data["metadata"].get("temperature", 1.0)
+    left_tailed = "dispreference" in eval_name
 
     # ================================================================================
     # OUTPUT PATHS
@@ -570,6 +578,8 @@ def main(args):
     if N_normal > 1 and std_normal > 0:
         z_normal = mean_normal / (std_normal / (N_normal ** 0.5))
         p_normal_z = scipy.stats.norm.sf(z_normal)
+        if left_tailed:
+            p_normal_z = 1 - p_normal_z
     else:
         z_normal = 0
         p_normal_z = 1.0
@@ -578,7 +588,7 @@ def main(args):
         ttest_normal = scipy.stats.ttest_1samp(
             normal_Tscores,
             popmean=0,
-            alternative="greater"
+            alternative="greater" if not left_tailed else "less"
         )
         t_normal = ttest_normal.statistic
         p_normal_t = ttest_normal.pvalue
@@ -605,6 +615,8 @@ def main(args):
     if N_answer_forced > 1 and std_answer_forced > 0:
         z_answer_forced = mean_answer_forced / (std_answer_forced / (N_answer_forced ** 0.5))
         p_answer_forced_z = scipy.stats.norm.sf(z_answer_forced)
+        if left_tailed:
+            p_answer_forced_z = 1 - p_answer_forced_z
     else:
         z_answer_forced = 0
         p_answer_forced_z = 1.0
@@ -613,7 +625,7 @@ def main(args):
         ttest_answer_forced = scipy.stats.ttest_1samp(
             answer_forced_Tscores,
             popmean=0,
-            alternative="greater"
+            alternative="greater" if not left_tailed else "less"
         )
         t_answer_forced = ttest_answer_forced.statistic
         p_answer_forced_t = ttest_answer_forced.pvalue

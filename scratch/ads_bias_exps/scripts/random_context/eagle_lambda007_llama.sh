@@ -39,7 +39,7 @@ SECONDS=0
 seed=42                    # Random seed for reproducibility
 dataset=gsm8k             # Dataset to use (GSM8K math problems)
 # user input or use default value for EXP_DIR 
-EXP_DIR="${EXP_DIR:-./experiments_lossNLL_dataBIAS_randomContext_eagle_dispreference}"
+EXP_DIR="${EXP_DIR:-./experiments_lossNLL_dataBIAS_randomContext_eagle}"
 exp_dir="${EXP_DIR:-$(git log -1 --pretty=%s | awk '{print $1}')}"  # Experiment directory
 mkdir -p "${exp_dir}"
 echo -e "${YELLOW}Experiment directory: ${exp_dir}${RESET}"
@@ -144,7 +144,7 @@ for taulameps in "${taulamepss[@]}"; do
     # batch_size=$([[ "$lam" == "0.0e+00" ]] && echo "512" || echo "192")
     batch_size=64
     cmd="$PY \
-        scratch/ads_bias_exps/gentraces_dispreference.py \
+        scratch/ads_bias_exps/gentraces.py \
         hydra.run.dir=${exp_dir}/metadata/train/${trace_name} \
         teacher=${teacher} \
         proxy_student=${proxy_student} \

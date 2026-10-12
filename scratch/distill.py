@@ -31,7 +31,7 @@ def main(args):
     if accelerator.is_main_process:
         content = Syntax(yaml.dump(namespace_to_dict(config), sort_keys=False), "yaml", theme="monokai")
         log_color(content, title="Config")
-
+    
     # skip if already exists
     if args.distilled_model_name:
         distilled_model_name = args.distilled_model_name
@@ -161,7 +161,7 @@ def main(args):
             return {"input_ids": tokens, "token_lengths": tok_lengths}
 
         # Process training traces (potentially poisoned with ADS)
-        train_traces = load_from_disk(config.train_datapath)
+        train_traces = load_from_disk(config.task.train_datapath)
         train_traces = train_traces.map(
             preprocess_function,
             batched=True,
